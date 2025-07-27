@@ -1,4 +1,5 @@
 {
+  "name": "monorepo-dev",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
   "features": {
     "ghcr.io/devcontainers/features/aws-cli:1": {
@@ -16,5 +17,5 @@
       "toolsToInstall": "pipenv,pylint"
     }
   },
-  "postCreateCommand": "npm install -g npm@latest"
+  "postCreateCommand": "npm install -g pnpm@10.13.0 && export PNPM_HOME=/home/vscode/.local/share/pnpm && mkdir -p $PNPM_HOME && export PATH=$PNPM_HOME:$PATH && pnpm add -g turbo"
 }
