@@ -1,5 +1,17 @@
 # pnpm-workspace.yaml
+
+# Create a package.json file in each directory and define unique package names in the name field.
+# The infra directory also needs a package.json (even if it's CDK-only, it's necessary for
+# dependency management and builds).
+#{
+#  "dependencies": {
+#    "@your-scope/ui": "*",
+#    "@your-scope/utils": "*"
+#  }
+#}
+
 packages:
+  # To connect dependencies in a monorepo, for example, in apps/web's package.json, write as follows:
   # apps/*:
   # Includes apps/web, apps/api, and apps/admin as workspaces.
   - "apps/*"
