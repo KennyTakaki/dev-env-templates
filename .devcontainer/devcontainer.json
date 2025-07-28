@@ -25,5 +25,5 @@
       ]
     }
   },
-  "postCreateCommand": "npm install -g pnpm@10.13.0 && export PNPM_HOME=/home/vscode/.local/share/pnpm && mkdir -p $PNPM_HOME && echo 'export PNPM_HOME=/home/vscode/.local/share/pnpm' >> /home/vscode/.bashrc && echo 'export PATH=$PNPM_HOME:$PATH' >> /home/vscode/.bashrc && export PATH=$PNPM_HOME:$PATH && pnpm add -g turbo"
+  "postCreateCommand": "bash .devcontainer/setup.sh"
 }
