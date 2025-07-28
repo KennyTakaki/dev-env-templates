@@ -1,0 +1,36 @@
+name: CI Workflow
+
+on:
+  push:
+    branches:
+      - "feature/**"
+
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+      - "dev/**"
+
+jobs:
+  set-stage-variable:
+    if: >
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set environment variable for stage
+        run: |
+          echo "Triggered by: ${{ github.ref }}"
+          if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
+            echo "STAGE=production" >> $GITHUB_ENV
+          elif [[ "${GITHUB_REF}" == refs/heads/dev/* ]]; then
+            echo "STAGE=development" >> $GITHUB_ENV
+          else
+            echo "STAGE=preview" >> $GITHUB_ENV
+          fi
+
+      - name: Echo stage
+        run: echo "Current stage is $STAGE"
