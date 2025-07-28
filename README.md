@@ -1,3 +1,4 @@
+```
 root
 ├── apps/
 │   ├── web/             # Frontend (Next.js, etc.)
@@ -14,8 +15,10 @@ root
 ├── pnpm-workspace.yaml
 ├── package.json         # Root package.json (scripts & dependencies)
 └── tsconfig.base.json   # Base TypeScript configuration
+```
 
 use following command in packages/infra dir.
+
 ```
 cdk init app --language typescript
 ```
