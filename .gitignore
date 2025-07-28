@@ -142,7 +142,8 @@ vite.config.ts.timestamp-*
 
 # pnpm
 .pnpm-debug.log
-pnpm-lock.yaml
+# pnpm-lock.yaml
+.pnpm-store/
 
 # Turbo
 .turbo/
