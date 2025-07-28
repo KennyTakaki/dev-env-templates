@@ -1,14 +1,11 @@
 {
     "$schema": "https://turborepo.org/schema.json",
-    "pipeline": {
+    "globalDependencies": [],
+    "tasks": {
         "build": {
-            "dependsOn": [
-                "^build"
-            ],
             "outputs": [
                 "dist/**",
-                ".next/**",
-                "build/**"
+                ".next/**"
             ]
         },
         "dev": {
@@ -18,9 +15,6 @@
             "outputs": []
         },
         "test": {
-            "dependsOn": [
-                "^build"
-            ],
             "outputs": [
                 "coverage/**"
             ]
