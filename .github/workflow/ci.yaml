@@ -9,7 +9,7 @@ on:
     types: [closed]
     branches:
       - main
-      - "dev/**"
+      - dev
 
 jobs:
   set-stage-variable:
@@ -23,14 +23,57 @@ jobs:
 
       - name: Set environment variable for stage
         run: |
-          echo "Triggered by: ${{ github.ref }}"
-          if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
+          echo "Triggered by ref: ${{ github.ref }}"
+          if [[ "${{ github.ref }}" == "refs/heads/main" || "${{ github.head_ref }}" == "main" ]]; then
             echo "STAGE=production" >> $GITHUB_ENV
-          elif [[ "${GITHUB_REF}" == refs/heads/dev/* ]]; then
+          elif [[ "${{ github.ref }}" == "refs/heads/dev" || "${{ github.head_ref }}" == "dev" ]]; then
             echo "STAGE=development" >> $GITHUB_ENV
           else
             echo "STAGE=preview" >> $GITHUB_ENV
           fi
 
-      - name: Echo stage
+      - name: Echo current stage
         run: echo "Current stage is $STAGE"
+
+  deploy:
+    needs: set-stage-variable
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to environment
+        run: |
+          echo "Deploying to $STAGE environment..."
+          # TODO: ここに実際のデプロイコマンドを記述（AWS/CDK/etc）
+
+  tag-on-main:
+    needs: deploy
+    if: github.base_ref == 'main' && github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get latest tag
+        id: get_tag
+        run: |
+          git fetch --tags
+          latest=$(git tag --sort=-v:refname | head -n 1)
+          echo "Latest tag: $latest"
+          echo "latest_tag=$latest" >> $GITHUB_OUTPUT
+
+      - name: Create new tag (semver patch bump as placeholder)
+        run: |
+          latest=${{ steps.get_tag.outputs.latest_tag }}
+          if [[ -z "$latest" ]]; then
+            new_tag="v0.1.0"
+          else
+            # 自動でパッチバージョンを1つ増やす例
+            IFS='.' read -r major minor patch <<< "${latest#v}"
+            patch=$((patch + 1))
+            new_tag="v$major.$minor.$patch"
+          fi
+          echo "New tag: $new_tag"
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag "$new_tag"
+          git push origin "$new_tag"
