@@ -8,7 +8,8 @@ mkdir -p $PNPM_HOME
 echo 'export PNPM_HOME=/home/vscode/.local/share/pnpm' >> /home/vscode/.bashrc
 echo 'export PATH=$PNPM_HOME:$PATH' >> /home/vscode/.bashrc
 export PATH=$PNPM_HOME:$PATH
-pnpm add -g turbo
+# pnpm add -g turbo@latest --prefer-fresh
+pnpm install
 
 # 最新バージョンを設定（必要に応じて変更可）
 GITLEAKS_VERSION="8.18.1"
@@ -20,3 +21,4 @@ tar -xzf /tmp/gitleaks.tar.gz -C /tmp
 # 実行権限を付与して配置
 chmod +x /tmp/gitleaks
 sudo mv /tmp/gitleaks /usr/local/bin/gitleaks
+

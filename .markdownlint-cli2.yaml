@@ -1,0 +1,17 @@
+# markdownlint-cli2 設定
+
+# 対象ファイル（lint対象のMarkdownファイルを指定）
+globs:
+  - '**/*.md'
+  - '!**/node_modules/**'
+  - '!**/dist/**'
+  - '!**/.turbo/**'
+
+# markdownlint のルール設定（エラーにしたくないルールを無効化）
+config:
+  default: true
+  MD013: false # 行の長さ制限を無効化
+  MD040: false # コードブロックに言語指定がない場合の警告を無効化
+  MD041: false # 最初の行が H1 見出しでない場合の警告を無効化
+  MD024: false
+  MD047: false

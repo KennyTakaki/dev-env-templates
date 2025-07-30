@@ -6,7 +6,7 @@ module.exports = {
     sourceType: 'module',
     ecmaFeatures: {
       jsx: true,
-    }
+    },
   },
   plugins: ['@typescript-eslint', 'prettier', 'react', 'react-hooks'],
   extends: [
@@ -21,7 +21,7 @@ module.exports = {
   },
   settings: {
     react: {
-      version: 'detect'
-    }
-  }
-}
+      version: 'detect',
+    },
+  },
+};

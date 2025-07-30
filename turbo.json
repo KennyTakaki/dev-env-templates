@@ -1,26 +1,24 @@
 {
-    "$schema": "https://turborepo.org/schema.json",
-    "globalDependencies": [],
-    "tasks": {
-        "build": {
-            "outputs": [
-                "dist/**",
-                ".next/**"
-            ]
-        },
-        "dev": {
-            "cache": false
-        },
-        "lint": {
-            "outputs": []
-        },
-        "test": {
-            "outputs": [
-                "coverage/**"
-            ]
-        },
-        "typecheck": {
-            "outputs": []
-        }
+  "$schema": "https://turborepo.org/schema.json",
+  "globalDependencies": [],
+  "tasks": {
+    "build": {
+      "outputs": ["dist/**", ".next/**"]
+    },
+    "dev": {
+      "cache": false
+    },
+    "lint": {
+      "outputs": []
+    },
+    "test": {
+      "outputs": ["coverage/**"]
+    },
+    "typecheck": {
+      "outputs": []
+    },
+    "lint:md": {
+      "outputs": []
     }
+  }
 }
