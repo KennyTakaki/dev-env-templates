@@ -162,3 +162,7 @@ test-results/
 
 # Prettier
 .prettiercache
+
+# gitleaks
+gitleaks-report.json
+

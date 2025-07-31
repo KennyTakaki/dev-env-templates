@@ -1,1 +1,14 @@
+#!/usr/bin/env sh
 pnpm test
+
+gitleaks detect \
+  --config=gitleaks.toml \
+  --source=. \
+  --redact \
+  --report-path gitleaks-report.json
+
+STATUS=$?
+if [ $STATUS -ne 0 ]; then
+  echo "🛑 Gitleaks found issues. Commit aborted."
+  exit 1
+fi

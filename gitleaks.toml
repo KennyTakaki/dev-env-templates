@@ -1,0 +1,83 @@
+title = "Gitleaks Config for Monorepo Projects (pnpm, AWS, GitHub, Husky)"
+
+[allowlist]
+description = "Exclude common development paths and files"
+
+files = [
+  "README.md",
+  "LICENSE",
+  "gitleaks-report.json"
+]
+
+paths = [
+  '''^pnpm-lock\.yaml$''',
+  '''^\.devcontainer/setup\.sh$''',
+  '''^\.git/''',
+  '''^node_modules/''',
+  '''^\.turbo/''',
+  '''^\.pnpm-store/''',
+  '''^\.next/''',
+  '''^dist/''',
+  '''^build/''',
+  '''^cdk\.out/'''
+]
+
+[[rules]]
+id = "aws-access-key"
+description = "AWS Access Key"
+regex = '''AKIA[0-9A-Z]{16}'''
+tags = ["aws", "key", "access"]
+
+[[rules]]
+id = "aws-secret-key"
+description = "AWS Secret Key"
+regex = '''(?i)aws(.{0,20})?(secret|access)?(.{0,20})?(key)?(.{0,20})?[=:]["']?[A-Za-z0-9/+=]{40}['"]?'''
+tags = ["aws", "key", "secret"]
+
+[[rules]]
+id = "github-token"
+description = "GitHub Token"
+regex = '''gh[pousr]_[A-Za-z0-9]{36,255}'''
+tags = ["github", "token", "oauth"]
+
+[[rules]]
+id = "npm-auth-token"
+description = "NPM Auth Token"
+regex = '''//registry\.npmjs\.org/:_authToken=\w+'''
+tags = ["npm", "auth", "token"]
+
+[[rules]]
+id = "generic-api-key"
+description = "Generic API key pattern"
+regex = '''(?i)(apikey|api_key|api-key|secret)[\s:=]+['"]?[a-z0-9]{32,45}['"]?'''
+tags = ["generic", "api", "key"]
+
+[[rules]]
+id = "rsa-private-key"
+description = "Private RSA Key"
+regex = '''-----BEGIN RSA PRIVATE KEY-----'''
+tags = ["rsa", "private", "key"]
+
+[[rules]]
+id = "ssh-private-key"
+description = "Private SSH Key"
+regex = '''-----BEGIN OPENSSH PRIVATE KEY-----'''
+tags = ["ssh", "private", "key"]
+
+[[rules]]
+id = "slack-webhook"
+description = "Slack Webhook URL"
+regex = '''https://hooks\.slack\.com/services/T[A-Z0-9]{8}/B[A-Z0-9]{8}/[a-zA-Z0-9]{24}'''
+tags = ["slack", "webhook", "url"]
+
+[[rules]]
+id = "jwt"
+description = "JWT Token"
+regex = '''eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}'''
+tags = ["token", "jwt"]
+
+[[rules]]
+id = "base64-encoded-secret"
+description = "Possibly Base64 encoded secrets (long sequences)"
+regex = '''([A-Za-z0-9+/]{60,}={0,2})'''
+tags = ["base64", "secret"]
