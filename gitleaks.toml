@@ -10,7 +10,7 @@ files = [
 ]
 
 paths = [
-  '''^pnpm-lock\.yaml$''',
+  '''(^|.*/)pnpm-lock\.yaml$''',
   '''^\.devcontainer/setup\.sh$''',
   '''^\.git/''',
   '''^node_modules/''',
