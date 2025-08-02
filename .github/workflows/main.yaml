@@ -3,7 +3,7 @@ name: CI Workflow
 on:
   push:
     branches:
-      - "feature/**"
+      - 'feature/**'
 
   pull_request:
     types: [closed]
@@ -17,6 +17,9 @@ jobs:
       github.event_name == 'push' ||
       (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -39,16 +42,20 @@ jobs:
     needs: set-stage-variable
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Deploy to environment
         run: |
           echo "Deploying to $STAGE environment..."
-          # TODO: ここに実際のデプロイコマンドを記述（AWS/CDK/etc）
+          # TODO: 実際のデプロイ処理を記述（AWS/CDKなど）
 
   tag-on-main:
     needs: deploy
     if: github.base_ref == 'main' && github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # ここだけwrite権限が必要
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -67,7 +74,6 @@ jobs:
           if [[ -z "$latest" ]]; then
             new_tag="v0.1.0"
           else
-            # 自動でパッチバージョンを1つ増やす例
             IFS='.' read -r major minor patch <<< "${latest#v}"
             patch=$((patch + 1))
             new_tag="v$major.$minor.$patch"
