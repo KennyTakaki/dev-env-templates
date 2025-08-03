@@ -1,0 +1,14 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Prohibit direct push to dev and main branches
+protected_branches="main dev"
+branch=$(git symbolic-ref --short HEAD)
+
+for b in $protected_branches; do
+  if [ "$branch" = "$b" ]; then
+    echo "❌ Push to '$branch' is blocked by Husky hook."
+    echo "✅ Please push from a feature or fix branch instead."
+    exit 1
+  fi
+done
