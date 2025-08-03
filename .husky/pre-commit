@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-pnpm test
+pnpm run test:all
 
 gitleaks detect \
   --config=gitleaks.toml \
