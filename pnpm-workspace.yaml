@@ -14,7 +14,7 @@ packages:
   # To connect dependencies in a monorepo, for example, in apps/web's package.json, write as follows:
   # apps/*:
   # Includes apps/web, apps/api, and apps/admin as workspaces.
-  - "apps/*"
+  - 'apps/*'
   # packages/*:
   # Includes packages/infra, packages/ui, and packages/utils.
-  - "packages/*"
+  - 'packages/*'
