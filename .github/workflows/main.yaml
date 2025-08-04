@@ -38,8 +38,31 @@ jobs:
       - name: Echo current stage
         run: echo "Current stage is $STAGE"
 
-  deploy:
+  build:
     needs: set-stage-variable
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build all apps and packages
+        run: pnpm run build:all
+
+  deploy:
+    needs: build
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
