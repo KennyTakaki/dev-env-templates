@@ -19,7 +19,8 @@ paths = [
   '''^\.next/''',
   '''^dist/''',
   '''^build/''',
-  '''^cdk\.out/'''
+  '''^cdk\.out/''',
+  '''(^|.*/)cdk\.json$'''
 ]
 
 [[rules]]
