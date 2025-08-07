@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+pnpm run lint:all
 pnpm run test:all
 
 gitleaks detect \
