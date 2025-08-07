@@ -1,24 +1,34 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
-import { globalIgnores } from 'eslint/config'
+import js from '@eslint/js';
+import globals from 'globals';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import tseslint from 'typescript-eslint';
 
 export default [
-  globalIgnores(['dist']),
+  // ignore dist
+  { ignores: ['dist', '**/jest.config.{js,cjs,mjs,ts}'] },
+
+  // recommend JS
   js.configs.recommended,
+
+  // recommend TypeScript
   ...tseslint.configs.recommended,
+
+  // ts/tsx
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
-        project: true, // tsconfig.json を使うなら true
+        project: true,
         sourceType: 'module',
         ecmaVersion: 2020,
       },
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.jest,
+      },
     },
     plugins: {
       'react-hooks': reactHooks,
@@ -29,4 +39,4 @@ export default [
       ...reactRefresh.configs.vite.rules,
     },
   },
-]
+];
