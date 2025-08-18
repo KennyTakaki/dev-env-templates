@@ -19,6 +19,9 @@
     },
     "lint:md": {
       "outputs": []
+    },
+    "format":{
+      "outputs": []
     }
   }
 }
